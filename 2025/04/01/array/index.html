@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> Hello-World -  挽歌&#39;s个人博客</title>
+		<title> 数组part1 -  挽歌&#39;s个人博客</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -51,7 +51,119 @@
 <script src="/deps/js/APlayer.min.js"></script>
 <script src="/deps/js/Meting.min.js"></script>
 
-	<meta name="generator" content="Hexo 7.3.0"></head>
+	<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 	<body>
 		<div
@@ -333,25 +445,43 @@
 			<img
 				data-src="/resources/deepspace.jpg"
 				data-sizes="auto"
-				alt="Hello-World"
+				alt="数组part1"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>Hello-World</h1>
+			<h1>数组part1</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2025年04月30日</a>
-			<a><i class="kirafont icon-edit-fill"></i>9 字</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2025年04月01日</a>
+			<a><i class="kirafont icon-edit-fill"></i>232 字</a>
 			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
 		</div>
-		<html><head></head><body><p>hello！这是我的第一个post。</p>
+		<html><head></head><body><h1><span id="%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2">写在前面：</span></h1><p>数组是基本的的数据结构，非常重要，在写算法题时，几乎是必不可缺的。</p>
+<p><strong>数组是存放在连续内存空间上的相同类型数据的集合。</strong></p>
+<hr>
+<h1><span id="%E6%95%B0%E7%BB%84">数组</span></h1><p>顾名思义，是存放在<strong>连续内存空间上</strong>的<strong>相同类型数据</strong>的集合。</p>
+<p>连续内存空间表明了其可以方便的使用下标引索的方式来获取数据，例如：</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">arr[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;<br></code></pre></td></tr></tbody></table></figure>
+
+<p>这段代码的意义是：取数组arr中第一个([0])内存空间中的内容，并把他赋值为10。</p>
+<p>值得注意的是：</p>
+<ul>
+<li>数组下标都是从0开始的。</li>
+<li>数组内存空间的地址是连续的</li>
+</ul>
+<blockquote>
+<p>但是，明明取的是第一个值，为什么下标为0呢？</p>
+<p>关于这个，在这不多做讨论，如有兴趣可以去看看我写的“差一错误”这篇文章。</p>
+</blockquote>
+<hr>
+<p>施工中…</p>
 </body></html>
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>本文作者：</strong>wangejinyong<br>
-        <strong>本文链接：</strong><a href="http://wangejinyong.github.io/2025/04/30/myfirstpost/" title="http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;30&#x2F;myfirstpost&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;30&#x2F;myfirstpost&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://wangejinyong.github.io/2025/04/01/array/" title="http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;01&#x2F;array&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;01&#x2F;array&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -367,7 +497,7 @@
 	<div class="kira-post-meta kira-rainbow">
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a>
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
 		
 	</div>
 	
