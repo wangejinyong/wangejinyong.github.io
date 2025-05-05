@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> 数组part1 -  挽歌&#39;s个人博客</title>
+		<title> 数组基础 -  挽歌&#39;s个人博客</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -438,23 +438,20 @@ mjx-container[display="true"] + br {
 <div class="kira-post">
 	<article>
 		
-		<div
-			class="kira-post-cover"
-			style="padding-bottom: '56.25%'"
-		>
+		<div class="kira-post-cover">
 			<img
-				data-src="/resources/deepspace.jpg"
+				data-src="/resources/array.png"
 				data-sizes="auto"
-				alt="数组part1"
+				alt="数组基础"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>数组part1</h1>
+			<h1>数组基础</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2025年04月01日</a>
-			<a><i class="kirafont icon-edit-fill"></i>232 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2025年05月05日</a>
+			<a><i class="kirafont icon-edit-fill"></i>774 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
 		</div>
 		<html><head></head><body><h1><span id="%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2">写在前面：</span></h1><p>数组是基本的的数据结构，非常重要，在写算法题时，几乎是必不可缺的。</p>
 <p><strong>数组是存放在连续内存空间上的相同类型数据的集合。</strong></p>
@@ -463,25 +460,71 @@ mjx-container[display="true"] + br {
 <p>连续内存空间表明了其可以方便的使用下标引索的方式来获取数据，例如：</p>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">arr[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;<br></code></pre></td></tr></tbody></table></figure>
 
-<p>这段代码的意义是：取数组arr中第一个([0])内存空间中的内容，并把他赋值为10。</p>
+<p>这段代码的意义是：取数组<code>arr</code>中第一个(<code>[0]</code>)内存空间中的内容，并把他赋值为10。</p>
 <p>值得注意的是：</p>
 <ul>
-<li>数组下标都是从0开始的。</li>
-<li>数组内存空间的地址是连续的</li>
+<li><strong>数组下标都是从0开始的。</strong></li>
+<li><strong>数组内存空间的地址是连续的</strong></li>
 </ul>
 <blockquote>
 <p>但是，明明取的是第一个值，为什么下标为0呢？</p>
-<p>关于这个，在这不多做讨论，如有兴趣可以去看看我写的“差一错误”这篇文章。</p>
+<p>关于这个，在这不多做讨论，如有兴趣可以去看看我写的“<a href="https://wangejinyong.github.io/2025/05/05/off-by-one-error/">差一错误</a>”这篇文章。</p>
 </blockquote>
+<p><strong>所以我们在删除或者增添元素的时候，就要移动其他元素的地址，将后面的移动到前面，再更改数组的大小。</strong></p>
+<p>​	如图所示：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250505160231811.png" alt="image-20250505160231811" class="lazyload"></p>
+<p>数组也分动态数组与静态数组。</p>
+<p>静态数组就是大小不可变，<strong>固定大小</strong>的数组。</p>
+<p>动态数组是运行时<strong>能自由扩展/收缩</strong>的数组，C++ 中主要通过 <code>std::vector</code> 实现。</p>
 <hr>
-<p>施工中…</p>
+<h3><span id="%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B">代码示例：</span></h3><h4><span id="1-%E9%9D%99%E6%80%81%E6%95%B0%E7%BB%84%E5%9B%BA%E5%AE%9A%E5%A4%A7%E5%B0%8F"><strong>1. 静态数组（固定大小）</strong></span></h4><p>静态数组大小不可变，但可通过逻辑覆盖模拟删除/插入。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 删除静态数组元素</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">staticArrayDelete</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span>&amp; size, <span class="hljs-type">int</span> index)</span> </span>{<br>    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt;= size) {<br>        cout &lt;&lt; <span class="hljs-string">"索引越界！"</span> &lt;&lt; endl;<br>        <span class="hljs-keyword">return</span>;<br>    }<br>    <span class="hljs-comment">// 将后续元素前移</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = index; i &lt; size - <span class="hljs-number">1</span>; i++) {<br>        arr[i] = arr[i + <span class="hljs-number">1</span>];<br>    }<br>    size--;<span class="hljs-comment">// 逻辑减小数组长度</span><br>}<br><br><span class="hljs-comment">// 在静态数组插入元素</span><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">staticArrayInsert</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span>&amp; size, <span class="hljs-type">int</span> maxSize, <span class="hljs-type">int</span> index, <span class="hljs-type">int</span> value)</span> </span>{<br>    <span class="hljs-keyword">if</span> (size &gt;= maxSize || index &lt; <span class="hljs-number">0</span> || index &gt; size) {<br>        cout &lt;&lt; <span class="hljs-string">"插入失败：空间不足或索引无效！"</span> &lt;&lt; endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    }<br>    <span class="hljs-comment">// 元素后移腾出位置</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = size; i &gt; index; i--) {<br>        arr[i] = arr[i - <span class="hljs-number">1</span>];<br>    }<br>    arr[index] = value;<br>    size++;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<h4><span id="2-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84vector"><strong>2. 动态数组（vector）</strong></span></h4><p>推荐使用 <code>std::vector</code>，自动管理内存。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-type">int</span>&gt; vec;<br>vec.<span class="hljs-built_in">push_back</span>(<span class="hljs-comment">/*num*/</span>);  <span class="hljs-comment">// 末尾添加</span><br>vec.<span class="hljs-built_in">pop_back</span>();    <span class="hljs-comment">// 末尾删除</span><br></code></pre></td></tr></tbody></table></figure>
+
+<h4><span id="3-%E5%8C%BA%E5%88%AB"><strong>3. 区别</strong></span></h4><table>
+<thead>
+<tr>
+<th align="center"><strong>操作</strong></th>
+<th align="center"><strong>静态数组</strong></th>
+<th align="center"><strong>vector</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>删除元素</strong></td>
+<td align="center">需手动移动元素，逻辑缩小 <code>size</code></td>
+<td align="center"><code>vec.erase()</code> 自动处理</td>
+</tr>
+<tr>
+<td align="center"><strong>插入元素</strong></td>
+<td align="center">需手动移动元素，检查容量</td>
+<td align="center"><code>vec.insert()</code> 自动扩容</td>
+</tr>
+<tr>
+<td align="center"><strong>内存管理</strong></td>
+<td align="center">固定大小，需预分配</td>
+<td align="center">动态扩容，无需手动管理</td>
+</tr>
+</tbody></table>
+<h4><span id="%E6%B3%A8%E6%84%8F"><strong>注意:</strong></span></h4><ul>
+<li><strong>静态数组</strong>：必须确保不越界（<code>size &lt;= MAX_SIZE</code>）。</li>
+<li><strong>动态数组</strong>：<code>erase()</code> 和 <code>insert()</code> 的时间复杂度为 <strong>O(n)</strong>。</li>
+</ul>
+<hr>
+<h1><span id="%E7%BB%93%E8%AF%AD">结语：</span></h1><p>数组是编程世界的基石，以<strong>连续内存和下标访问</strong>为核心，在效率与简洁之间找到平衡。</p>
+<p><strong>静态数组</strong>划定疆界，安全却固执；<strong>动态数组</strong>灵活伸缩，用空间换自由。</p>
+<p>记住：</p>
+<blockquote>
+<p>“数组教会我们的不仅是存储数据，更是如何在确定性与灵活性间寻找最优解——就像编程本身，是规则与创造的艺术。”</p>
+</blockquote>
 </body></html>
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>本文作者：</strong>wangejinyong<br>
-        <strong>本文链接：</strong><a href="http://wangejinyong.github.io/2025/04/01/array/" title="http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;01&#x2F;array&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;04&#x2F;01&#x2F;array&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://wangejinyong.github.io/2025/05/05/array/" title="http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;05&#x2F;05&#x2F;array&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;05&#x2F;05&#x2F;array&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
