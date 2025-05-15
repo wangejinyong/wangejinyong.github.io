@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html 
+	lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> 二叉树的深度优先遍历 -  挽歌&#39;s个人博客</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href="/resources/neuro.png"
+			type="image/png"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('/resources/deepspace.jpg')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="挽歌&#39;s个人博客">
+        <img
+			src="/resources/tx.jpg"
+			alt="wangejinyong"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a href="/resources/tx.jpg" title="wangejinyong">
+			<img
+				src="/resources/tx.jpg"
+				alt="wangejinyong"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>6</div>
+		<div><span>标签</span>3</div>
+		<div><span>分类</span>0</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				回到首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于本人"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于本人
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="文章归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				文章归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				我的朋友
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3243998166&website=www.oicqzone.com"
+				target="_blank"
+				mdui-tooltip="{content: 'QQ'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-QQ
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/268515669"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/wangejinyong/"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://gitee.com/EForbidden"
+				target="_blank"
+				mdui-tooltip="{content: 'Gitee'}"
+				style="color: rgb(165, 15, 15); background-color: rgba(165, 15, 15, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-gitee
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">技术</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8F%B2/" style="font-size: 10px;">计算机史</a>
+		</div>
+		
+	</div>
+
+
+		
+			
+	<div class="kira-widget-wrap">
+		<h3 class="kira-widget-title">
+			文章归档
+		</h3>
+		<div class="kira-widget">
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1999/">1999</a><span class="archive-list-count">1</span></li></ul>
+		</div>
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">wangejinyong</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		Hello World:)
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div class="kira-post-cover">
+			<img
+				data-src="/resources/tree-dfs-traversal.png"
+				data-sizes="auto"
+				alt="二叉树的深度优先遍历"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>二叉树的深度优先遍历</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2025年05月14日</a>
+			<a><i class="kirafont icon-edit-fill"></i>5.2k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 22 分钟</a>
+		</div>
+		<html><head></head><body><h1><span id="%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2">写在前面：</span></h1><p>二叉树的遍历是指按照某种顺序访问树中的所有节点，确保每个节点被访问一次。常见的遍历方式有三种：<strong>前序遍历</strong>、<strong>中序遍历</strong>和<strong>后序遍历</strong>（均属于深度优先搜索，DFS）。</p>
+<p>相关题目列表：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-preorder-traversal/">144.二叉树的前序遍历</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-inorder-traversal/">94.二叉树的中序遍历</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-postorder-traversal/">145.二叉树的后序遍历</a></li>
+</ul>
+<hr>
+<h1><span id="%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">二叉树基础知识</span></h1><h2><span id="1%E6%9C%AF%E8%AF%AD">1.术语</span></h2><ol>
+<li><p><strong>节点(Node)</strong>：是二叉树的基本组成单位，包含：</p>
+<ul>
+<li><p>数据域（存储数据）</p>
+</li>
+<li><p>左指针（指向左子树）</p>
+</li>
+<li><p>右指针（指向右子树）</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514210857934.png" alt="image-20250514210857934" class="lazyload"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>根节点(Root)</strong>：树的顶端节点，没有父节点的唯一节点</p>
+<p>假如我们有一棵二叉树，如图：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514203415979.png" alt="image-20250514203415979" class="lazyload"></p>
+<p>这时，树的顶端节点，没有<strong>父节点</strong>（没有被线引出）的唯一节点，也就是<strong>节点A</strong>，就是<strong>根节点</strong>。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514204112501.png" alt="image-20250514204112501" class="lazyload"></p>
+</li>
+<li><p><strong>父节点(Parent)<strong>和</strong>子节点(Child)</strong>：</p>
+<ul>
+<li><p>若x节点指向y节点，则x节点是y节点的<strong>父节点</strong>，y节点是x节点的<strong>子节点</strong></p>
+</li>
+<li><p>我们使用图中的A,B节点做示例：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514205947074.png" alt="image-20250514205947074" class="lazyload"></p>
+<p>因为A指向B，所以称A是B的<strong>父节点</strong>，B是A的<strong>子节点</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>叶子节点(Leaf)</strong>：没有子节点的节点</p>
+<p>顾名思义：</p>
+</li>
+</ol>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514210309953.png" alt="image-20250514210309953" class="lazyload"></p>
+<h2><span id="2%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">2.代码实现</span></h2><p>既然知道了二叉树的大概知识，那么如何实现二叉树？</p>
+<p>我们一般用<strong>链式存储</strong>来实现。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">TreeNode</span> {<br>    <span class="hljs-type">int</span> val;<br>    TreeNode *left;<br>    TreeNode *right;<br>    <span class="hljs-built_in">TreeNode</span>(<span class="hljs-type">int</span> x) : <span class="hljs-built_in">val</span>(x), <span class="hljs-built_in">left</span>(<span class="hljs-literal">NULL</span>), <span class="hljs-built_in">right</span>(<span class="hljs-literal">NULL</span>) {}<br>};<br></code></pre></td></tr></tbody></table></figure>
+
+<p>用图示例一下就是：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514212055990.png" alt="image-20250514212055990" class="lazyload"></p>
+<p>上面我们已经知道了，这就是二叉树的一个<strong>节点(Node)</strong>，它拥有：</p>
+<ul>
+<li>数据域，就是代码中的val</li>
+<li>左指针，指向左子树</li>
+<li>右指针，指向右子树</li>
+<li><code>TreeNode(int x) : val(x), left(NULL), right(NULL) {}</code>这段代码是用来初始化节点的。</li>
+</ul>
+<p>从这里我们也可以发现，二叉树实现时，使用的是<strong>链表</strong>，只有在知道了上一个节点的情况下，才能访问下一个节点。</p>
+<p>所以我们不能像数组一样去用下标索引二叉树里面的数据，而是一个个的<strong>遍历</strong>二叉树节点，直到找到我们需要的数据。</p>
+<p>那么，常见的遍历方式有三种：<strong>前序遍历</strong>、<strong>中序遍历</strong>和<strong>后序遍历</strong>。</p>
+<hr>
+<h1><span id="%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86">前序遍历</span></h1><p>英文名为 <strong>Preorder Traversal</strong> ，前序遍历。</p>
+<p>前序遍历遵循**”根节点→左子树→右子树”**的顺序访问所有节点。速记“根左右”。</p>
+<h3><span id="%E9%81%8D%E5%8E%86%E9%A1%BA%E5%BA%8F">遍历顺序</span></h3><ol>
+<li>访问当前节点（根节点）</li>
+<li>递归遍历左子树</li>
+<li>递归遍历右子树</li>
+</ol>
+<h3><span id="%E7%A4%BA%E4%BE%8B">示例</span></h3><p>假如有棵二叉树：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514212731124.png" alt="image-20250514212731124" class="lazyload"></p>
+<p>根据**”根节点→左子树→右子树”**，应先访问1节点：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514212908111.png" alt="image-20250514212908111" class="lazyload"></p>
+<p>再访问其左子树2节点：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514213016015.png" alt="image-20250514213016015" class="lazyload"></p>
+<p>此时，2节点为<strong>新节点</strong>，故<strong>暂时停止</strong>对1节点的先序遍历，<strong>先对2节点进行先序遍历</strong>，将2节点作为根节点遍历：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514213251717.png" alt="image-20250514213251717" class="lazyload"></p>
+<p>根据**”根节点→左子树→右子树”**，应先访问2节点，<strong>再访问4节点</strong>：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514213338176.png" alt="image-20250514213338176" class="lazyload"></p>
+<p>此时，4节点为<strong>新节点</strong>，故<strong>暂时停止</strong>对2节点的先序遍历，<strong>先对4节点进行先序遍历</strong>，但发现4节点的左右节点都为<strong>空（<code>null</code>）</strong>，所以4节点的先序遍历结束，回到2节点的先序遍历。</p>
+<p>因2节点的根节点与左节点<strong>都已经访问过</strong>，所以接下来应该访问<strong>右节点</strong>，也就是<strong>5节点</strong>：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514213653762.png" alt="image-20250514213653762" class="lazyload"></p>
+<p>同理，5节点的左右节点都为<strong>空（<code>null</code>）</strong>，先序遍历结束，<strong>回到2节点的先序遍历</strong>。</p>
+<p>2节点的先序遍历<strong>已经完成根节点→左子树→右子树的遍历</strong>，故结束，<strong>回到1节点的先序遍历</strong>：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514213912784.png" alt="image-20250514213912784" class="lazyload"></p>
+<p>1节点的根节点，左子树都已经遍历过，根据**“根节点→左子树→右子树”**顺序，接下来应该遍历右子树，故访问3节点：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250514214107951.png" alt="image-20250514214107951" class="lazyload"></p>
+<p>同理，3节点为<strong>新节点</strong>，故<strong>暂时停止</strong>对1节点的先序遍历，<strong>先对3节点进行先序遍历</strong>，但发现4节点的左右节点都为<strong>空（<code>null</code>）</strong>，所以3节点的先序遍历结束，回到1节点的先序遍历。</p>
+<p>又因为1节点的遍历<strong>已经遍历了右子树</strong>，根据**“根节点→左子树→右子树”**顺序，所以1节点遍历结束。</p>
+<p>自此，整个二叉树已经遍历完毕，我们将之前的过程整理一下可得：<br><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -0.452ex;" xmlns="http://www.w3.org/2000/svg" width="37.833ex" height="2.149ex" role="img" focusable="false" viewbox="0 -750 16722.2 950"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">前</text></g><g data-mml-node="mi" transform="translate(1000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">序</text></g><g data-mml-node="mi" transform="translate(2000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">遍</text></g><g data-mml-node="mi" transform="translate(3000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">历</text></g><g data-mml-node="mi" transform="translate(4000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">结</text></g><g data-mml-node="mi" transform="translate(5000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">果</text></g><g data-mml-node="mi" transform="translate(6000,0)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">为</text></g><g data-mml-node="mi" transform="translate(7000,0)"><text data-variant="italic" transform="scale(1,-1)" font-size="884px" font-family="serif" font-style="italic">：</text></g><g data-mml-node="mn" transform="translate(8000,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"/></g><g data-mml-node="mo" transform="translate(8777.8,0)"><path data-c="2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"/></g><g data-mml-node="mn" transform="translate(10055.6,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"/></g><g data-mml-node="mo" transform="translate(10833.3,0)"><path data-c="2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"/></g><g data-mml-node="mn" transform="translate(12111.1,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"/></g><g data-mml-node="mo" transform="translate(12888.9,0)"><path data-c="2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"/></g><g data-mml-node="mn" transform="translate(14166.7,0)"><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"/></g><g data-mml-node="mo" transform="translate(14944.4,0)"><path data-c="2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"/></g><g data-mml-node="mn" transform="translate(16222.2,0)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"/></g></g></g></svg></mjx-container><br>那么，怎么用代码来实现它呢？</p>
+<h3><span id="c%E5%AE%9E%E7%8E%B0%E5%89%8D%E5%BA%8F%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86">C++实现前序递归遍历</span></h3><p>看了上面关于遍历顺序的详解，相信大多数人脑子里很可能会想到一个词“递归”。</p>
+<p>是的，递归的遍历二叉树是一个常用的遍历实现方法。</p>
+<p>具体实现如下：</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">preorderTraversal</span><span class="hljs-params">(TreeNode* root, vector&lt;<span class="hljs-type">int</span>&gt;&amp; result)</span> </span>{<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span>;<br>    result.<span class="hljs-built_in">push_back</span>(root-&gt;val);  <span class="hljs-comment">// 访问根节点</span><br>    <span class="hljs-built_in">preorderRecursive</span>(root-&gt;left, result);  <span class="hljs-comment">// 遍历左子树</span><br>    <span class="hljs-built_in">preorderRecursive</span>(root-&gt;right, result); <span class="hljs-comment">// 遍历右子树</span><br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<p>这是一个实现二叉树<strong>前序遍历</strong>的递归函数，我们将遍历结果存储在 <code>vector&lt;int&gt; result</code> 中。</p>
+<h4><span id="1%E5%87%BD%E6%95%B0%E6%B3%A8%E5%86%8C">1.函数注册</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">preorderTraversal</span><span class="hljs-params">(TreeNode* root, vector&lt;<span class="hljs-type">int</span>&gt;&amp; result)</span></span><br></code></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><code>TreeNode* root</code> ：当前子树的根节点指针</li>
+<li><code>vector&lt;int&gt;&amp; result</code> ：用于存储遍历结果的引用</li>
+</ul>
+<h4><span id="2%E9%80%92%E5%BD%92%E7%BB%88%E6%AD%A2%E6%9D%A1%E4%BB%B6">2.递归终止条件</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span>;<br></code></pre></td></tr></tbody></table></figure>
+
+<p>检查当前节点是否为空（到达叶子节点的子节点），防止无限递归，是树的终止，表明某个节点的遍历结束，向上返回。</p>
+<h4><span id="3%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E6%A0%B8%E5%BF%83%E6%93%8D%E4%BD%9C">3.前序遍历核心操作</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">result.<span class="hljs-built_in">push_back</span>(root-&gt;val);  <span class="hljs-comment">// 访问根节点</span><br></code></pre></td></tr></tbody></table></figure>
+
+<p>按照<strong>根→左→右</strong>的顺序，首先访问当前节点，也就是将当前节点的数据压入<code>result</code>容器中。</p>
+<p>这是”前序”（Preorder）的关键体现——<strong>先访问根节点</strong>。</p>
+<h4><span id="4%E9%80%92%E5%BD%92%E5%A4%84%E7%90%86%E5%B7%A6%E5%AD%90%E6%A0%91">4.递归处理左子树</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">preorderRecursive</span>(root-&gt;left, result);  <span class="hljs-comment">// 遍历左子树</span><br></code></pre></td></tr></tbody></table></figure>
+
+<p>对当前节点的<strong>左子树</strong>进行相同的前序遍历，先<strong>暂停</strong>此时的根节点的遍历，转向其左子树的遍历。这里体现出了递归——我们在函数的定义中使用函数自身。</p>
+<p><strong>简单来说，就是让这个函数拿着上一个函数没有算完的结果去计算，一层层的分发下去，直到最底层的函数计算出终值后向上返回答案。</strong></p>
+<h4><span id="5%E9%80%92%E5%BD%92%E5%A4%84%E7%90%86%E5%8F%B3%E5%AD%90%E6%A0%91">5.递归处理右子树</span></h4><p>同理，左子树处理完成后，再处理<strong>右子树</strong>。右子树的处理是在左子树完全处理完毕后才进行，也是递归。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">preorderRecursive</span>(root-&gt;right, result); <span class="hljs-comment">// 遍历右子树</span><br></code></pre></td></tr></tbody></table></figure>
+
+<p>到这里代码就告一段落。再举个例子：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515123115204.png" alt="image-20250515123115204" class="lazyload"></p>
+<ol>
+<li>访问节点1 → [1]<ul>
+<li>递归左子树（节点2）</li>
+</ul>
+</li>
+<li>访问节点2 → [1,2]<ul>
+<li>递归左子树（节点4）</li>
+</ul>
+</li>
+<li>访问节点4 → [1,2,4]<ul>
+<li>左子树空返回</li>
+<li>右子树空返回</li>
+</ul>
+</li>
+<li>回到节点2处理右子树（节点5）→ [1,2,4,5]</li>
+<li>回到节点1处理右子树（节点3）→ [1,2,4,5,3]</li>
+<li>最终结果：[1,2,4,5,3]</li>
+</ol>
+<ul>
+<li><strong>时间复杂度</strong>：O(n)（每个节点访问一次）</li>
+<li><strong>空间复杂度</strong>：O(h)（h为树高，即递归深度）</li>
+</ul>
+<p>递归实现虽然简洁，但在处理极深二叉树时可能有栈溢出风险，此时应改用栈来非递归实现。</p>
+<p>那么如何非递归实现呢？</p>
+<h3><span id="c%E5%AE%9E%E7%8E%B0%E5%89%8D%E5%BA%8F%E8%BF%AD%E4%BB%A3%E9%81%8D%E5%8E%86">C++实现前序迭代遍历</span></h3><p>深究递归的原理，我们会发现递归实际上每一次调用函数都会把上一个函数的各种数据<strong>压入调用栈</strong>。也就是说递归实际上程序员让计算机使用栈来完成了遍历。</p>
+<p>因此，我们也可以直接使用栈来实现前序遍历。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">preorderTraversal</span><span class="hljs-params">(TreeNode* root)</span> </span>{<br>    vector&lt;<span class="hljs-type">int</span>&gt; result;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span> result;<br>    stack&lt;TreeNode*&gt; nodeStack;<br>    nodeStack.<span class="hljs-built_in">push</span>(root);<br>    <span class="hljs-keyword">while</span> (!nodeStack.<span class="hljs-built_in">empty</span>()) {<br>        TreeNode* node = nodeStack.<span class="hljs-built_in">top</span>();<br>        nodeStack.<span class="hljs-built_in">pop</span>();<br>        result.<span class="hljs-built_in">push_back</span>(node-&gt;val);  <span class="hljs-comment">// 访问当前节点</span><br>        <span class="hljs-comment">// 注意：右子树先入栈，左子树后入栈，这样左子树会先出栈被处理</span><br>        <span class="hljs-keyword">if</span> (node-&gt;right != <span class="hljs-literal">nullptr</span>) {<br>            nodeStack.<span class="hljs-built_in">push</span>(node-&gt;right);<br>        }<br>        <span class="hljs-keyword">if</span> (node-&gt;left != <span class="hljs-literal">nullptr</span>) {<br>            nodeStack.<span class="hljs-built_in">push</span>(node-&gt;left);<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> result;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<h4><span id="1-%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96">1. 函数定义和初始化</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">preorderTraversal</span><span class="hljs-params">(TreeNode* root)</span> </span>{<br>    vector&lt;<span class="hljs-type">int</span>&gt; result;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></tbody></table></figure>
+<p>返回前序遍历结果的整数向量</p>
+<p>初始化<code>result</code>容器，用来存储遍历结果。如果根节点为空，直接返回空结果。</p>
+<h4><span id="2-%E6%A0%88%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96">2. 栈的初始化</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">stack&lt;TreeNode*&gt; nodeStack;<br>nodeStack.<span class="hljs-built_in">push</span>(root);<br></code></pre></td></tr></tbody></table></figure>
+<p>初始化一个<strong>栈</strong>，其数据类型是<code>TreeNode*</code>，这就是我们遍历需要使用的栈。</p>
+<p><strong>根节点push入栈</strong>（相当于递归的起始点）</p>
+<h4><span id="3-%E6%A0%B8%E5%BF%83%E5%BE%AA%E7%8E%AF">3. 核心循环</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">while</span> (!nodeStack.<span class="hljs-built_in">empty</span>()) {<br>    TreeNode* node = nodeStack.<span class="hljs-built_in">top</span>();<br>    nodeStack.<span class="hljs-built_in">pop</span>();<br>    result.<span class="hljs-built_in">push_back</span>(node-&gt;val);  <span class="hljs-comment">// 访问当前节点</span><br></code></pre></td></tr></tbody></table></figure>
+<p>当循环条件栈不为空时继续处理</p>
+<p><strong>节点处理</strong>：</p>
+<p>新建一个<code>TreeNode*</code>，用于获取当前栈<strong>最上方</strong>的（也就是最后入栈的）节点，访问它，再将这个节点移除出栈。</p>
+<p>注：<strong>前序特性：先访问根节点</strong></p>
+<h4><span id="4-%E5%AD%90%E8%8A%82%E7%82%B9%E5%A4%84%E7%90%86%E5%85%B3%E9%94%AE%E9%83%A8%E5%88%86">4. 子节点处理（关键部分）</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 右子树先入栈，左子树后入栈</span><br><span class="hljs-keyword">if</span> (node-&gt;right != <span class="hljs-literal">nullptr</span>) {<br>    nodeStack.<span class="hljs-built_in">push</span>(node-&gt;right);<br>}<br><span class="hljs-keyword">if</span> (node-&gt;left != <span class="hljs-literal">nullptr</span>) {<br>    nodeStack.<span class="hljs-built_in">push</span>(node-&gt;left);<br>}<br></code></pre></td></tr></tbody></table></figure>
+<ul>
+<li><p><strong>入栈顺序</strong>：</p>
+<p><strong>先将右子节点入栈，后将左子节点入栈</strong>（因为栈是<strong>后进先出</strong>结构），下一个循环处理时会先处理左子节点，满足<code>根→左→右</code>的顺序。</p>
+</li>
+</ul>
+<h4><span id="5-%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C">5. 返回结果</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></tbody></table></figure>
+<ul>
+<li>当栈空时，遍历完成，返回结果列表</li>
+</ul>
+<p><strong>到这里代码就告一段落。再举个例子：</strong></p>
+<p>还是以这颗二叉树为例：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515123541470.png" alt="image-20250515123541470" class="lazyload"></p>
+<p><strong>步骤分析</strong>：</p>
+<p>首先我们将<strong>根节点</strong>（1节点）入栈：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515123715891.png" alt="image-20250515123715891" class="lazyload"></p>
+<p>接着开始循环，</p>
+<p>访问1节点，将1节点放入result数组，再将1节点出栈，表示已经访问完毕。</p>
+<p>接着，分别让1节点的<strong>右子节点和左子节</strong>点入栈：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515124132055.png" alt="image-20250515124132055" class="lazyload"></p>
+<p>根据顺序，我们取栈最上方的2节点（也就是1节点的左子节点，符合<strong>根左右</strong>），<strong>访问它，将它放入result数组表示已经访问完毕，并出栈（pop）</strong>。</p>
+<p>接着，分别让2节点的<strong>右子节点和左子节</strong>点入栈：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515124528242.png" alt="image-20250515124528242" class="lazyload"></p>
+<p>同理，取栈最上方的4节点，<strong>访问并将它放入result数组表示已经访问完毕</strong>，最后出栈。再分别让4节点的<strong>右子节点和左子节</strong>点入栈.</p>
+<p>我们发现4节点的<strong>右子节点和左子节</strong>都为空，故<strong>没有节点入栈</strong>，无伤大雅：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515124847526.png" alt="image-20250515124847526" class="lazyload"></p>
+<p>同理，取栈最上方的5节点，其余操作与4节点相同：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515125010471.png" alt="image-20250515125010471" class="lazyload"></p>
+<p>接着取栈最上方的3节点，访问，入result数组，出栈，且<strong>没有子节点入栈</strong>：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515125216500.png" alt="image-20250515125216500" class="lazyload"></p>
+<p>循环条件中，栈空，循环结束，输出result数组。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515125304117.png" alt="image-20250515125304117" class="lazyload"></p>
+<p><strong>最终结果</strong>：[1,2,4,5,3]</p>
+<p>这就是使用栈的非递归代码实现过程，手动维护栈，控制更灵活，也是面试中的高频考点。</p>
+<ul>
+<li><strong>时间复杂度</strong>：O(n)（每个节点访问一次）</li>
+<li><strong>空间复杂度</strong>：O(h)（h为树高，即递归深度）</li>
+</ul>
+<p>那么谁更有优势？</p>
+<table>
+<thead>
+<tr>
+<th align="center">特性</th>
+<th align="center">递归实现</th>
+<th align="center">非递归实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">代码复杂度</td>
+<td align="center">简单直观</td>
+<td align="center">稍复杂</td>
+</tr>
+<tr>
+<td align="center">空间复杂度</td>
+<td align="center">O(h)（调用栈，h为树高）</td>
+<td align="center">O(h)（显式栈）</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">树深度不大时</td>
+<td align="center">树深度较大时（避免栈溢出）</td>
+</tr>
+<tr>
+<td align="center">可读性</td>
+<td align="center">高</td>
+<td align="center">中等</td>
+</tr>
+</tbody></table>
+<p>可以看到，实际上<strong>并无优劣之分</strong>，只是使用场景不同。</p>
+<hr>
+<h1><span id="%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86">中序遍历</span></h1><p>英文名为 <strong>Inorder traversal</strong> ，中序遍历。</p>
+<p>中序遍历遵循**“左子树→根节点→右子树”<strong>的顺序访问所有节点。速记</strong>“左根右”**。</p>
+<h3><span id="%E9%81%8D%E5%8E%86%E9%A1%BA%E5%BA%8F">遍历顺序</span></h3><ol>
+<li>递归遍历左子树</li>
+<li>访问当前节点</li>
+<li>递归遍历右子树</li>
+</ol>
+<p>思路和前序遍历实际上差不多，如图：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134223446.png" alt="image-20250515134223446" class="lazyload"></p>
+<p>先遍历根节点的<strong>左子树</strong>，取2节点。</p>
+<p>暂停对1节点的遍历，先对2节点进行<strong>中序遍历</strong>，取4节点。</p>
+<p>暂停对2节点的遍历，先对4节点进行<strong>中序遍历</strong>。</p>
+<p>我们发现4节点是叶子节点，左右子树皆为空，故访问它，并返回对2节点的中序遍历：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134311585.png" alt="image-20250515134311585" class="lazyload"></p>
+<p>这时，根据**“左子树→根节点→右子树”**的顺序，访问2节点。</p>
+<p>访问完成后，访问2节点的右子树，取5节点。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134339358.png" alt="image-20250515134339358" class="lazyload"></p>
+<p>暂停对2节点的遍历，先对5节点进行<strong>中序遍历</strong>。</p>
+<p>5节点是叶子节点，左右子树皆为空，故访问它，并返回对2节点的中序遍历：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134405789.png" alt="image-20250515134405789" class="lazyload"></p>
+<p>此时2节点的中序遍历已经结束，返回1节点的<strong>中序遍历</strong>。</p>
+<p>根据**“左子树→根节点→右子树”**的顺序，访问1节点：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134418186.png" alt="image-20250515134418186" class="lazyload"></p>
+<p><strong>暂停</strong>对1节点的遍历，取1节点的右子树，3节点。</p>
+<p>3节点为<strong>叶子节点</strong>，访问并返回对1节点的遍历。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515134430099.png" alt="image-20250515134430099" class="lazyload"></p>
+<p>此时1节点也已结束遍历。</p>
+<p>此刻，所有遍历过程结束，整棵树都已完成遍历。</p>
+<p><strong>最终结果</strong>：[4,2,5,1,3]</p>
+<h3><span id="c%E5%AE%9E%E7%8E%B0%E4%B8%AD%E5%BA%8F%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86">C++实现中序递归遍历</span></h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(TreeNode* root, vector&lt;<span class="hljs-type">int</span>&gt;&amp; result)</span> </span>{<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-built_in">inorderTraversal</span>(root-&gt;left, result);  <span class="hljs-comment">// 遍历左子树</span><br>    result.<span class="hljs-built_in">push_back</span>(root-&gt;val);          <span class="hljs-comment">// 访问根节点</span><br>    <span class="hljs-built_in">inorderTraversal</span>(root-&gt;right, result); <span class="hljs-comment">// 遍历右子树</span><br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<p>对比前序遍历，只是将 <em><strong>遍历左子树</strong></em> 与 <em><strong>访问根节点</strong></em> 的顺序改变了一下，故不再赘述。</p>
+<h3><span id="c%E5%AE%9E%E7%8E%B0%E5%89%8D%E5%BA%8F%E8%BF%AD%E4%BB%A3%E9%81%8D%E5%8E%86">C++实现前序迭代遍历</span></h3><p>举一反三，是不是改一点前序遍历代码顺序就把中序遍历写出来了？</p>
+<p>于是我写出以下代码：</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(TreeNode* root)</span> </span>{<br>    vector&lt;<span class="hljs-type">int</span>&gt; result;<br>    TreeNode* current = root;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span> result;<br>    stack&lt;TreeNode*&gt; nodeStack;<br>    <span class="hljs-comment">// 遍历到最左节点</span><br>    <span class="hljs-keyword">while</span> (current-&gt;left != <span class="hljs-literal">nullptr</span>) {<br>        current = current-&gt;left;<br>    }<br>    nodeStack.<span class="hljs-built_in">push</span>(current);<br>    <span class="hljs-keyword">while</span> (!nodeStack.<span class="hljs-built_in">empty</span>()) {<br>        TreeNode* node = nodeStack.<span class="hljs-built_in">top</span>();<br>        nodeStack.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">if</span> (node-&gt;right != <span class="hljs-literal">nullptr</span>) {<br>        	nodeStack.<span class="hljs-built_in">push</span>(node-&gt;right);<br>        }<br>        result.<span class="hljs-built_in">push_back</span>(node-&gt;val);  <span class="hljs-comment">// 访问当前节点</span><br>        <span class="hljs-comment">//左子树后入栈</span><br>        <span class="hljs-keyword">if</span> (node-&gt;left != <span class="hljs-literal">nullptr</span>) {<br>            nodeStack.<span class="hljs-built_in">push</span>(node-&gt;left);<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> result;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<p>实际上，这个代码是错的。<br>$$<br>输入：root =[1,null,2,3]</p>
+<p>输出：[1,2,3]</p>
+<p>预期结果：[1,3,2]<br>$$</p>
+<h4><span id="%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E5%83%8F%E9%80%92%E5%BD%92%E4%B8%80%E6%A0%B7%E5%86%8D%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8A%E6%9B%B4%E6%94%B9%E5%91%A2">为什么不能像递归一样再前序遍历的基础上更改呢？</span></h4><p>因为：</p>
+<ol>
+<li>中序是”左→根→右”，必须先把左子树全走完才能访问根节点</li>
+<li>前序的栈操作是”路过即访问”，而中序需要”路过但不立即访问”，也就是说<strong>处理和访问的时机不相同</strong>。</li>
+<li>中序遍历需要：<ul>
+<li>用一个指针专门往左子树钻（<code>while(left)</code>）</li>
+<li>从栈里弹出的才是真正要访问的节点</li>
+<li>必须等所有左子树处理完才能处理自己</li>
+</ul>
+</li>
+</ol>
+<p><em>前序后序是”看到就处理”，中序是”等左边全完事再处理”，所以需要完全不同的代码结构。</em></p>
+<p>因此，写出如下代码：</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(TreeNode* root)</span> </span>{<br>    vector&lt;<span class="hljs-type">int</span>&gt; result;            <span class="hljs-comment">// 存储遍历结果</span><br>    stack&lt;TreeNode*&gt; nodeStack;     <span class="hljs-comment">// 辅助栈</span><br>    TreeNode* current = root;       <span class="hljs-comment">// 当前节点指针</span><br>    <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">nullptr</span> || !nodeStack.<span class="hljs-built_in">empty</span>()) {<br>        <span class="hljs-comment">// 遍历到最左节点</span><br>        <span class="hljs-keyword">if</span>(current != <span class="hljs-literal">nullptr</span>) {<br>            nodeStack.<span class="hljs-built_in">push</span>(current);<br>            current = current-&gt;left;<br>            <span class="hljs-keyword">continue</span>;<br>        }<br>        <span class="hljs-comment">// 访问节点</span><br>        current = nodeStack.<span class="hljs-built_in">top</span>();<br>        nodeStack.<span class="hljs-built_in">pop</span>();<br>        result.<span class="hljs-built_in">push_back</span>(current-&gt;val);<br>        <span class="hljs-comment">// 转向右子树</span><br>        current = current-&gt;right;<br>    }<br>    <span class="hljs-keyword">return</span> result;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<h4><span id="1%E5%B7%A6%E5%AD%90%E6%A0%91%E5%A4%84%E7%90%86">1.左子树处理</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">while</span> (current != <span class="hljs-literal">nullptr</span>) {<br>    nodeStack.<span class="hljs-built_in">push</span>(current);<br>    current = current-&gt;left;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<p>沿着左子树路径一直走到最底部。</p>
+<p>将当前节点压入栈（保留待后续处理），而后将current移向左子节点，使栈中保存了从根到最左节点的路径。</p>
+<h4><span id="2%E8%8A%82%E7%82%B9%E8%AE%BF%E9%97%AE">2.节点访问</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">current = nodeStack.<span class="hljs-built_in">top</span>();<br>nodeStack.<span class="hljs-built_in">pop</span>();<br>result.<span class="hljs-built_in">push_back</span>(current-&gt;val);<br></code></pre></td></tr></tbody></table></figure>
+
+<p>处理栈顶节点（当前子树的最左节点）</p>
+<ul>
+<li><strong>操作</strong>：<ol>
+<li>弹出栈顶节点（此时该节点没有未处理的左子树）</li>
+<li>将节点值加入结果集</li>
+</ol>
+</li>
+</ul>
+<p>实现了”左子树处理完后访问根节点”的中序要求。</p>
+<h4><span id="3%E8%BD%AC%E5%90%91%E5%8F%B3%E5%AD%90%E6%A0%91">3.转向右子树</span></h4><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">current = current-&gt;right;<br></code></pre></td></tr></tbody></table></figure>
+
+<p>开始处理右子树，将current指向右子节点。</p>
+<p>如果右子节点存在，下一轮循环会处理它的左子树；如果右子节点为空，下一轮会继续弹出栈中节点。</p>
+<p><strong>到这里代码就告一段落。</strong></p>
+<p>再举个例子：</p>
+<p>老样子，我还是使用这个经典的12345：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515151046128.png" alt="image-20250515151046128" class="lazyload"></p>
+<p><strong>步骤分析</strong>：</p>
+<p>初始化完成后，我们开始循环。</p>
+<p>从根节点（1节点）开始，current指针指向1节点，1节点入栈。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515151512125.png" alt="image-20250515151512125" class="lazyload"></p>
+<p>current指针指向1的<strong>左节点</strong>——2节点。同理，2节点入栈。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515151555770.png" alt="image-20250515151555770" class="lazyload"></p>
+<p>current指向2的<strong>左节点</strong>——4节点，且4节点入栈。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515151626929.png" alt="image-20250515151626929" class="lazyload"></p>
+<p>这时我们发现4节点是个叶子节点，也就是说它的左子节点是null：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515152143797.png" alt="image-20250515152143797" class="lazyload"></p>
+<p>这时，将不执行if语句，进入余下的函数区。</p>
+<p>将指针指向<strong>栈最上方</strong>的节点（4节点），并将4节点出栈。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515152427524.png" alt="image-20250515152427524" class="lazyload"></p>
+<p>这时访问current指针指向的节点，放入result数组。</p>
+<p>并将指针指向<strong>4节点的右子节点</strong>，null：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515152717144.png" alt="image-20250515152717144" class="lazyload"></p>
+<p>进入下一个循环，发现指针还是null，但是<strong>栈非空</strong>，故让current指向栈最上方的<strong>2节点</strong>，并将2节点出栈。</p>
+<p>这时访问current指向的<strong>2节点</strong>，放入result数组。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515153036188.png" alt="image-20250515153036188" class="lazyload"></p>
+<p>根据代码，将current指针指向<strong>2节点的右子节点</strong>，5节点。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515153140457.png" alt="image-20250515153140457" class="lazyload"></p>
+<p>进入下一个循环，current指针非空（为5节点），故将5节点入栈，且令current指针指向节点5的左子节点——null。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515153913959.png" alt="image-20250515153913959" class="lazyload"></p>
+<p>同理，进入下一个循环，current指针为null，跳过if语句进入剩余函数区。</p>
+<p>current指针指向栈最上方的5节点，5节点出栈，访问5节点放入result数组。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515155409537.png" alt="image-20250515155409537" class="lazyload"></p>
+<p>接着使current指向5节点的右子树，为空（null）。</p>
+<p>进入下一个循环，current为空，跳过if语句进入剩余函数区。</p>
+<p>同理，current指针指向栈最上方的1节点，1节点出栈，访问1节点放入result数组。</p>
+<p>接着使current指向1节点的右子树，为3节点。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515155651518.png" alt="image-20250515155651518" class="lazyload"></p>
+<p>进入下一个循环，current非空，其指向的3节点入栈。</p>
+<p>current指向3节点的右子树，null。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515155915911.png" alt="image-20250515155915911" class="lazyload"></p>
+<p>下一个循环，current为空。使current指针指向栈最上方的3节点，3节点出栈，访问3节点，放入result数组。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515160048289.png" alt="image-20250515160048289" class="lazyload"></p>
+<p>此时使current指针指向3节点的右子节点，null。</p>
+<p>进入下一个循环，判断条件时发现current和栈都为空，循环结束。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="image-20250515160255831.png" alt="image-20250515160255831" class="lazyload"></p>
+<p><em><strong>自此，返回result数组，二叉树已经遍历完成。</strong></em></p>
+<p><strong>最终结果</strong>：[4,2,5,1,3]</p>
+<table>
+<thead>
+<tr>
+<th align="center">对比项</th>
+<th align="center">非递归实现</th>
+<th align="center">递归实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">栈管理</td>
+<td align="center">使用stack</td>
+<td align="center">系统调用栈</td>
+</tr>
+<tr>
+<td align="center">空间效率</td>
+<td align="center">更优</td>
+<td align="center">受限于系统栈大小</td>
+</tr>
+<tr>
+<td align="center">代码复杂度</td>
+<td align="center">较高</td>
+<td align="center">简单直观</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">深度大的树</td>
+<td align="center">深度小的树</td>
+</tr>
+<tr>
+<td align="center">执行效率</td>
+<td align="center">略高（无函数调用开销）</td>
+<td align="center">略低</td>
+</tr>
+</tbody></table>
+<hr>
+<h1><span id="%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86">后序遍历</span></h1><p>英文名为 <strong>Postorder traversal</strong> ，后序遍历。</p>
+<p>后序遍历遵循**“左子树→右子树→根节点”<strong>的顺序访问所有节点。速记</strong>“左右根”**。</p>
+<h2><span id="%E4%B8%80%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E8%AF%A6%E8%A7%A3">一、后序遍历详解</span></h2><h3><span id="%E9%81%8D%E5%8E%86%E9%A1%BA%E5%BA%8F">遍历顺序</span></h3><ol>
+<li>递归遍历左子树</li>
+<li>递归遍历右子树</li>
+<li>访问当前节点（根节点）</li>
+</ol>
+<h3><span id="%E7%89%B9%E7%82%B9">特点</span></h3><ul>
+<li>根节点最后被访问</li>
+<li>适合删除树或计算子树属性</li>
+<li>可用于表达式树的后缀表示（逆波兰表示法）</li>
+</ul>
+<h3><span id="%E7%A4%BA%E4%BE%8B">示例</span></h3><p>对于二叉树：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">    1<br>   / \<br>  2   3<br> / \<br>4   5<br></code></pre></td></tr></tbody></table></figure>
+<p>后序遍历结果为：4 → 5 → 2 → 3 → 1</p>
+<h3><span id="c%E5%AE%9E%E7%8E%B0">C++实现</span></h3><p>所有的后序遍历只需再前序的基础上更改即可，这里不再赘述。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="68747470733a2f2f66696c652e6b616d61636f6465722e636f6d2f706963732f32303230303830383230303333383932342e706e67.png" alt="前序到后序" class="lazyload"></p>
+<p>图片来自<a target="_blank" rel="noopener" href="https://github.com/youngyangyang04/leetcode-master/blob/master/problems/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E8%BF%AD%E4%BB%A3%E9%81%8D%E5%8E%86.md">代码随想录</a></p>
+<h3><span id="1-%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0">1. 递归实现</span></h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">postorderTraversal</span><span class="hljs-params">(TreeNode* root, vector&lt;<span class="hljs-type">int</span>&gt;&amp; result)</span> </span>{<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-built_in">postorderRecursive</span>(root-&gt;left, result);  <span class="hljs-comment">// 遍历左子树</span><br>    <span class="hljs-built_in">postorderRecursive</span>(root-&gt;right, result); <span class="hljs-comment">// 遍历右子树</span><br>    result.<span class="hljs-built_in">push_back</span>(root-&gt;val);            <span class="hljs-comment">// 访问根节点</span><br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<h3><span id="2-%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0%E4%BD%BF%E7%94%A8%E6%A0%88">2. 非递归实现（使用栈）</span></h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">postorderTraversal</span><span class="hljs-params">(TreeNode* root)</span> </span>{<br>    stack&lt;TreeNode*&gt; st;<br>    vector&lt;<span class="hljs-type">int</span>&gt; result;<br>    <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> result;<br>    st.<span class="hljs-built_in">push</span>(root);<br>    <span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) {<br>        TreeNode* node = st.<span class="hljs-built_in">top</span>();<br>        st.<span class="hljs-built_in">pop</span>();<br>        result.<span class="hljs-built_in">push_back</span>(node-&gt;val);<br>        <span class="hljs-keyword">if</span> (node-&gt;left) st.<span class="hljs-built_in">push</span>(node-&gt;left); <span class="hljs-comment">// 相对于前序遍历，这更改一下入栈顺序 （空节点不入栈）</span><br>        <span class="hljs-keyword">if</span> (node-&gt;right) st.<span class="hljs-built_in">push</span>(node-&gt;right); <span class="hljs-comment">// 空节点不入栈</span><br>    }<br>    <span class="hljs-built_in">reverse</span>(result.<span class="hljs-built_in">begin</span>(), result.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">// 将结果反转之后就是左右中的顺序了</span><br>    <span class="hljs-keyword">return</span> result;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<h3><span id="%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94">两种实现对比</span></h3><table>
+<thead>
+<tr>
+<th align="center">特性</th>
+<th align="center">递归实现</th>
+<th align="center">非递归实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">代码复杂度</td>
+<td align="center">简单</td>
+<td align="center">较复杂</td>
+</tr>
+<tr>
+<td align="center">空间复杂度</td>
+<td align="center">O(h)（隐式调用栈）</td>
+<td align="center">O(h)（显式栈）</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">树深度不大时</td>
+<td align="center">避免栈溢出时</td>
+</tr>
+<tr>
+<td align="center">可读性</td>
+<td align="center">高</td>
+<td align="center">中等</td>
+</tr>
+<tr>
+<td align="center">执行效率</td>
+<td align="center">函数调用开销</td>
+<td align="center">直接操作栈更高效</td>
+</tr>
+</tbody></table>
+<hr>
+<h1><span id="%E7%BB%93%E8%AF%AD">结语</span></h1><blockquote>
+<p>算法是思想的雕琢刀。——《算法导论》</p>
+</blockquote>
+<p>前序、中序、后序遍历不仅是代码的路径，更是思维的分形。</p>
+<p>递归实现展现了算法的优雅本质，而非递归实现揭示了计算机真实的执行过程。</p>
+<p>二者的关系如同诗歌与散文——前者凝练意境，后者清晰直白。</p>
+<p>编程如修行，遍历见真章。</p>
+<p>愿你在二叉树的每一处分支，都能找到属于自己的最优路径。</p>
+</body></html>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>wangejinyong<br>
+        <strong>本文链接：</strong><a href="http://wangejinyong.github.io/2025/05/14/tree-dfs-traversal/" title="http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;05&#x2F;14&#x2F;tree-dfs-traversal&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;wangejinyong.github.io&#x2F;2025&#x2F;05&#x2F;14&#x2F;tree-dfs-traversal&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
